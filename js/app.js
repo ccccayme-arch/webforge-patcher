@@ -145,7 +145,7 @@ class WebForgeApp {
   _updateGodModeVisibility() {
     const apkCard = document.getElementById('apk-card');
     if (!apkCard) return;
-    apkCard.style.display = this.patchMode === 'magisk' ? 'block' : 'none';
+    apkCard.classList.toggle('hidden', this.patchMode !== 'magisk');
   }
 
   _switchTab(tabName) {
@@ -280,7 +280,7 @@ class WebForgeApp {
       ['Region', info.region || '—'],
     ];
     container.innerHTML = rows.map(([l, v]) => '<div class="row"><span class="label">' + l + '</span><span class="value">' + v + '</span></div>').join('');
-    card.style.display = 'block';
+    card.classList.remove('hidden');
   }
 
   _displayOdinPIT(pit) {
@@ -293,7 +293,7 @@ class WebForgeApp {
       return '<div class="row"><span class="label">' + writable + ' ' + p.name + '</span><span class="value">' + sizeMB + 'MB</span></div>';
     });
     list.innerHTML = '<div class="device-info">' + rows.join('') + '</div>';
-    card.style.display = 'block';
+    card.classList.remove('hidden');
   }
 
   async _odinFactoryReset() {
@@ -476,7 +476,7 @@ class WebForgeApp {
         ${s.secondSize > 0 ? `<div class="row"><span class="label">Second</span><span class="value">${(s.secondSize / 1024).toFixed(0)} KB</span></div>` : ''}
         ${s.dtbSize > 0 ? `<div class="row"><span class="label">DTB</span><span class="value">${(s.dtbSize / 1024).toFixed(0)} KB</span></div>` : ''}
       </div>`;
-    card.style.display = 'block';
+    card.classList.remove('hidden');
   }
 
   // ============================================================
@@ -793,8 +793,8 @@ class WebForgeApp {
       const card = document.getElementById('ai-diagnosis-card');
       const container = document.getElementById('ai-diagnosis');
       if (card && container) {
-        container.innerHTML = `<div style="font-size:0.8125rem;line-height:1.5">${diagnosis}</div>`;
-        card.style.display = 'block';
+        container.innerHTML = `<div class="ai-diagnosis-text">${diagnosis}</div>`;
+        card.classList.remove('hidden');
       }
     } catch (e) {
       Utils.log('AI diagnosis failed: ' + e.message, 'warn');
@@ -834,7 +834,7 @@ class WebForgeApp {
     const container = document.getElementById('device-info');
     if (!container) return;
     if (!this.deviceInfo) {
-      container.innerHTML = '<p style="color:var(--text-muted);font-size:0.8125rem">No device connected</p>';
+      container.innerHTML = '<p class="placeholder-text">No device connected</p>';
       document.getElementById('btn-flash')?.setAttribute('disabled', '');
       document.getElementById('btn-flash-vbmeta')?.setAttribute('disabled', '');
       return;

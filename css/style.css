@@ -815,3 +815,10 @@ code {
 }
 .noscript-fallback h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
 .noscript-fallback p { color: var(--text-muted); }
+
+
+.ai-diagnosis-text {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text);
+}
