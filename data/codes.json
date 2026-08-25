@@ -126,7 +126,9 @@
         "rtre": "Edge 50 Pro",
         "corfu": "Edge 50",
         "vicky": "Edge 50 Neo",
-        "channel": "Edge 50 Ultra"
+        "channel": "Edge 50 Ultra",
+        "rhodep": "G Play (2023)",
+        "tonga": "G Power (2022)"
       }
     },
     "nothing": {
@@ -302,13 +304,13 @@
       "flashable": true
     },
     "system": {
-      "description": "NOT RECOMMENDED \u2014 too large for browser",
+      "description": "NOT RECOMMENDED — too large for browser",
       "maxSizeMB": 0,
       "patchable": false,
       "flashable": false
     },
     "vendor": {
-      "description": "NOT RECOMMENDED \u2014 too large for browser",
+      "description": "NOT RECOMMENDED — too large for browser",
       "maxSizeMB": 0,
       "patchable": false,
       "flashable": false
@@ -373,7 +375,7 @@
       "usesInitBoot": true,
       "usesVendorBoot": true,
       "bootMethod": "init_boot",
-      "note": "16KB page size support \u2014 auto-detect from boot header"
+      "note": "16KB page size support — auto-detect from boot header"
     }
   },
   "bootHeaderVersions": {
