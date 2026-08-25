@@ -186,6 +186,8 @@ class WebForgeApp {
       });
 
       Utils.log(`Device: ${product} (secure=${secure}, unlocked=${unlocked})`);
+      Utils.toast('Fastboot device connected', 'success');
+      Utils.setStatus('fb-status-dot', 'connected');
 
       if (secure === 'yes' && unlocked !== 'yes') {
         this._showWarning('Bootloader is LOCKED. Unlock via "Unlock Bootloader" button or "fastboot flashing unlock" first.');
@@ -212,6 +214,7 @@ class WebForgeApp {
     } catch (err) {
       Utils.log(err.message, 'error');
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
       if (this.ai) this._aiDiagnose(err.message, { action: 'fastboot_connect' });
     }
   }
@@ -224,6 +227,8 @@ class WebForgeApp {
       await this.odinBridge.initSession();
       this.bridge = this.odinBridge; // also set as main bridge for shared UI
       Utils.log('Samsung Odin device connected');
+      Utils.toast('Odin device connected', 'success');
+      Utils.setStatus('odin-status-dot', 'connected');
       // Enable Odin buttons
       ['btn-odin-disconnect', 'btn-odin-interrogate', 'btn-odin-erase-userdata', 'btn-odin-reboot', 'btn-odin-continue'].forEach(id => {
         document.getElementById(id)?.removeAttribute('disabled');
@@ -237,7 +242,8 @@ class WebForgeApp {
           this._displayOdinDeviceInfo(info);
         }
       } catch (e) { Utils.log('Auto device info failed — click Read Device Info', 'debug'); }
-    } catch (err) { Utils.log(err.message, 'error'); this._showError(err.message); }
+    } catch (err) { Utils.log(err.message, 'error'); this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   async _disconnectOdin() {
@@ -246,11 +252,13 @@ class WebForgeApp {
       this.odinBridge = null;
       this.bridge = null;
       Utils.log('Odin device disconnected');
+      Utils.setStatus('odin-status-dot', 'disconnected');
+      Utils.toast('Odin device disconnected', 'info');
       ['btn-odin-disconnect', 'btn-odin-interrogate', 'btn-odin-erase-userdata', 'btn-odin-reboot', 'btn-odin-continue', 'btn-flash-odin', 'btn-abort-odin'].forEach(id => {
         document.getElementById(id)?.setAttribute('disabled', '');
       });
-      document.getElementById('odin-device-card')?.style.setProperty('display', 'none');
-      document.getElementById('odin-pit-card')?.style.setProperty('display', 'none');
+      document.getElementById('odin-device-card')?.classList.add('hidden');
+      document.getElementById('odin-pit-card')?.classList.add('hidden');
     }
   }
 
@@ -265,6 +273,7 @@ class WebForgeApp {
     } catch (err) {
       Utils.log('Interrogation failed: ' + err.message, 'error');
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
     }
   }
 
@@ -305,6 +314,7 @@ class WebForgeApp {
     } catch (err) {
       Utils.log('Factory reset failed: ' + err.message, 'error');
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
     }
   }
 
@@ -314,7 +324,8 @@ class WebForgeApp {
       await this.odinBridge.reboot();
       this._showSuccess('Device rebooting...');
       this._disconnectOdin();
-    } catch (err) { this._showError(err.message); }
+    } catch (err) { this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   async _odinContinue() {
@@ -323,7 +334,8 @@ class WebForgeApp {
       await this.odinBridge.bootContinue();
       this._showSuccess('Device continuing boot...');
       this._disconnectOdin();
-    } catch (err) { this._showError(err.message); }
+    } catch (err) { this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   _odinAbort() {
@@ -354,6 +366,8 @@ class WebForgeApp {
       await this.bridge.disconnect();
       this.bridge = null;
       this.deviceInfo = null;
+      Utils.setStatus('fb-status-dot', 'disconnected');
+      Utils.toast('Device disconnected', 'info');
       this.deviceVars = null;
       this._updateDeviceInfo();
       ['btn-boot-temp', 'btn-get-slot', 'btn-switch-slot', 'btn-unlock', 'btn-reboot', 'btn-reboot-bootloader', 'btn-reboot-recovery', 'btn-continue-boot', 'btn-flash', 'btn-flash-vbmeta'].forEach(id => {
@@ -390,6 +404,7 @@ class WebForgeApp {
     } catch (err) {
       Utils.log(`Odin flash failed: ${err.message}`, 'error');
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
       if (this.ai) this._aiDiagnose(err.message, { action: 'odin_flash' });
     } finally {
       document.getElementById('btn-abort-odin')?.setAttribute('disabled', '');
@@ -438,6 +453,7 @@ class WebForgeApp {
     } catch (err) {
       Utils.log(`Parse failed: ${err.message}`, 'error');
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
     }
   }
 
@@ -455,6 +471,7 @@ class WebForgeApp {
     } catch (err) {
       Utils.log(`APK extraction failed: ${err.message}`, 'error');
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
     }
   }
 
@@ -524,6 +541,7 @@ class WebForgeApp {
       // Rebuild boot image
       this.bootImage._patchedData = this.bootImage.build();
       Utils.log(`Patched image: ${(this.bootImage._patchedData.byteLength / 1024 / 1024).toFixed(2)} MB`);
+      Utils.toast('Image patched successfully', 'success');
 
       // Enable download and flash buttons
       document.getElementById('btn-download-patched')?.removeAttribute('disabled');
@@ -532,7 +550,9 @@ class WebForgeApp {
       this._showSuccess('Boot image patched! Ready to flash or download.');
     } catch (err) {
       Utils.log(`Patch failed: ${err.message}`, 'error');
+      Utils.toast('Patch failed: ' + err.message, 'error', 5000);
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
       if (this.ai) this._aiDiagnose(err.message, { action: 'patch', mode: this.patchMode });
     }
   }
@@ -569,7 +589,9 @@ class WebForgeApp {
       this._showSuccess(`${partition} flashed successfully!`);
     } catch (err) {
       Utils.log(`Flash failed: ${err.message}`, 'error');
+      Utils.toast('Flash failed: ' + err.message, 'error', 5000);
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
       if (this.ai) this._aiDiagnose(err.message, { action: 'flash', partition });
     }
   }
@@ -619,7 +641,9 @@ class WebForgeApp {
       this._showSuccess('Temporary boot sent! Check device screen.');
     } catch (err) {
       Utils.log('Boot temp failed: ' + err.message, 'error');
+      Utils.toast('Boot failed: ' + err.message, 'error', 5000);
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
     }
   }
 
@@ -630,7 +654,8 @@ class WebForgeApp {
       const info = document.getElementById('slot-info');
       if (info) info.textContent = 'Current slot: ' + current;
       Utils.log('Current slot: ' + current);
-    } catch (err) { this._showError(err.message); }
+    } catch (err) { this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   async _switchSlot() {
@@ -640,7 +665,8 @@ class WebForgeApp {
       const info = document.getElementById('slot-info');
       if (info) info.textContent = 'Switched to slot: ' + slot;
       this._showSuccess('Active slot set to ' + slot);
-    } catch (err) { this._showError(err.message); }
+    } catch (err) { this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   async _unlockBootloader() {
@@ -651,32 +677,38 @@ class WebForgeApp {
       this._showSuccess('Unlock command sent. Check device screen for confirmation.');
     } catch (err) {
       Utils.log('Unlock failed: ' + err.message, 'error');
+    Utils.toast('Unlock failed: ' + err.message, 'error', 5000);
       this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000);
     }
   }
 
   async _rebootDevice() {
     if (!this.bridge) { this._showError('No device connected'); return; }
     try { await this.bridge.reboot(); this._showSuccess('Rebooting...'); }
-    catch (err) { this._showError(err.message); }
+    catch (err) { this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   async _rebootBootloader() {
     if (!this.bridge) { this._showError('No device connected'); return; }
     try { await this.bridge.rebootBootloader(); this._showSuccess('Rebooting to bootloader...'); }
-    catch (err) { this._showError(err.message); }
+    catch (err) { this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   async _rebootRecovery() {
     if (!this.bridge) { this._showError('No device connected'); return; }
     try { await this.bridge.rebootRecovery(); this._showSuccess('Rebooting to recovery...'); }
-    catch (err) { this._showError(err.message); }
+    catch (err) { this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   async _continueBoot() {
     if (!this.bridge) { this._showError('No device connected'); return; }
     try { await this.bridge.continueBoot(); this._showSuccess('Continuing boot...'); }
-    catch (err) { this._showError(err.message); }
+    catch (err) { this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   async _flashVbmeta() {
@@ -686,7 +718,8 @@ class WebForgeApp {
       await this.bridge.flashPartition('vbmeta', this.vbmetaImage);
       Utils.log('vbmeta flashed with verification disabled');
       this._showSuccess('vbmeta flashed successfully!');
-    } catch (err) { Utils.log(`vbmeta flash failed: ${err.message}`, 'error'); this._showError(err.message); }
+    } catch (err) { Utils.log(`vbmeta flash failed: ${err.message}`, 'error'); this._showError(err.message);
+    if (err.message.length < 80) Utils.toast(err.message, 'error', 4000); }
   }
 
   // ============================================================
@@ -703,6 +736,7 @@ class WebForgeApp {
     a.click();
     URL.revokeObjectURL(url);
     Utils.log('Patched image downloaded');
+    Utils.toast('Download started', 'success');
   }
 
   // ============================================================
@@ -715,8 +749,9 @@ class WebForgeApp {
     localStorage.setItem('webforge_groq_key', input.value);
     this.ai = new AIAssistant(input.value);
     Utils.log('Groq API key saved');
+    Utils.toast('API key saved', 'success', 2000);
     this._showSuccess('AI assistant enabled');
-    document.getElementById('ai-key-card')?.style.setProperty('display', 'none');
+    document.getElementById('ai-key-card')?.classList.add('hidden');
   }
 
   async _aiAnalyze() {
@@ -890,20 +925,12 @@ class WebForgeApp {
 
   _showError(msg) {
     this._addLog(msg, 'error');
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--error);color:#fff;padding:12px 20px;border-radius:8px;font-size:0.8125rem;z-index:9999;max-width:90%;text-align:center';
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 5000);
+    Utils.toast(msg, 'error', 5000);
   }
 
   _showSuccess(msg) {
     this._addLog(msg, 'info');
-    const toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;padding:12px 20px;border-radius:8px;font-size:0.8125rem;z-index:9999;max-width:90%;text-align:center';
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 4000);
+    Utils.toast(msg, 'success', 4000);
   }
 }
 

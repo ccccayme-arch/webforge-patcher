@@ -121,4 +121,25 @@ export class Utils {
     const event = new CustomEvent('webforge:log', { detail: { msg, level } });
     window.dispatchEvent(event);
   }
+
+
+  static toast(msg, type = 'info', duration = 3500) {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = msg;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.classList.add('toast-out');
+      setTimeout(() => toast.remove(), 200);
+    }, duration);
+  }
+
+  static setStatus(dotId, state) {
+    const dot = document.getElementById(dotId);
+    if (!dot) return;
+    dot.classList.remove('connected', 'disconnected', 'error');
+    dot.classList.add(state);
+  }
 }

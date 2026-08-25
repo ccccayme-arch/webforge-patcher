@@ -108,7 +108,7 @@
       </div>
       <div class="card">
         <div class="card-title">Device Info</div>
-        <div id="device-info"><p class="placeholder-text">No device connected</p></div>
+        <div id="device-info"><p class="placeholder-text"><span class="status-dot disconnected" id="fb-status-dot"></span>No device connected</p></div>
       </div>
       <div class="card">
         <div class="card-title">Flash Operations</div>
@@ -157,7 +157,7 @@
       </div>
 
       <div class="card">
-        <div class="card-title">Samsung Odin Connection</div>
+        <div class="card-title"><span class="status-dot disconnected" id="odin-status-dot"></span>Samsung Odin Connection</div>
         <div class="btn-grid">
           <button class="btn btn-primary" id="btn-connect-odin">Connect Odin Device</button>
           <button class="btn btn-secondary" id="btn-odin-disconnect" disabled>Disconnect</button>
@@ -257,6 +257,7 @@
     </div>
   </div>
 
+  <div class="toast-container" id="toast-container"></div>
   <script type="module" src="./js/app.js"></script>
 </body>
 </html>
