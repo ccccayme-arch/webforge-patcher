@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="description" content="Browser-based Android boot image patcher and flasher with WebUSB Fastboot, Samsung Odin, Magisk injection, and AI-powered diagnostics.">
+  <meta name="keywords" content="Android, root, Magisk, fastboot, Odin, boot image, patcher, flasher, WebUSB, PWA">
+  <meta name="author" content="WebForge">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WebForge">
+  <meta property="og:title" content="WebForge Patcher">
+  <meta property="og:description" content="Browser-based Android boot image patcher and flasher with WebUSB Fastboot, Samsung Odin, and AI diagnostics.">
+  <meta property="og:type" content="website">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icons/favicon.svg">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <title>WebForge Patcher — Browser-based Android Boot Patcher</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"
+          onerror="console.warn('[WebForge] pako.js CDN failed — native deflate-raw will be used')"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lz4js@0.3.0/dist/lz4.min.js"
+          onerror="console.warn('[WebForge] lz4.js CDN failed — LZ4 firmware decompression unavailable')"></script>
+</head>
+<body>
+  <noscript>
+    <div style="padding: 2rem; text-align: center; font-family: system-ui; color: #e6edf3; background: #0d1117; min-height: 100vh;">
+      <h1>JavaScript Required</h1>
+      <p>WebForge Patcher needs JavaScript to function. Please enable it in your browser settings.</p>
+    </div>
+  </noscript>
+  <div class="container">
+    <header>
+      <h1>Web<span>Forge</span></h1>
+      <p>Browser-based Android boot patcher & flasher</p>
+    </header>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="patch">Patch</button>
+      <button class="tab" data-tab="flash">Flash</button>
+      <button class="tab" data-tab="odin">WebOdin</button>
+      <button class="tab" data-tab="ai">AI</button>
+      <button class="tab" data-tab="log">Log</button>
+    </div>
+
+    <!-- PATCH PANEL -->
+    <div class="panel active" id="panel-patch">
+      <div class="card">
+        <div class="card-title">Boot Image</div>
+        <div class="file-drop" id="file-drop">
+          <p>Tap or drag a <code>boot.img</code> / <code>init_boot.img</code> / <code>vendor_boot.img</code></p>
+          <p class="filename"></p>
+        </div>
+        <input type="file" id="file-input" accept=".img,.bin" style="display:none">
+      </div>
+
+      <div class="card" id="boot-info-card" style="display:none">
+        <div class="card-title">Image Info</div>
+        <div id="boot-info"></div>
+      </div>
+
+      <div class="card" id="apk-card">
+        <div class="card-title">Magisk APK (God Mode)</div>
+        <div class="file-drop" id="apk-drop">
+          <p>Upload a <code>Magisk.apk</code> to extract root binaries</p>
+          <p class="filename"></p>
+        </div>
+        <input type="file" id="apk-input" accept=".apk" style="display:none">
+      </div>
+
+      <div class="card">
+        <div class="card-title">Patch Options</div>
+        <div class="toggle-group">
+          <label>Magisk (root injection)</label>
+          <div class="toggle"><input type="radio" name="patch-mode" value="magisk" checked><span class="toggle-slider"></span></div>
+        </div>
+        <div class="toggle-group">
+          <label>KernelSU (kernel patch)</label>
+          <div class="toggle"><input type="radio" name="patch-mode" value="kernelSu"><span class="toggle-slider"></span></div>
+        </div>
+        <div class="toggle-group">
+          <label>Disable dm-verity only</label>
+          <div class="toggle"><input type="radio" name="patch-mode" value="disableVerity"><span class="toggle-slider"></span></div>
+        </div>
+        <div class="toggle-group">
+          <label>Android 15 16KB page size</label>
+          <div class="toggle"><input type="checkbox" id="toggle-16k"><span class="toggle-slider"></span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;gap:8px">
+        <button class="btn btn-primary" id="btn-patch" disabled>Patch Image</button>
+        <button class="btn btn-secondary" id="btn-download-patched" disabled>Download Patched Image</button>
+      </div>
+    </div>
+
+    <!-- FLASH PANEL -->
+    <div class="panel" id="panel-flash">
+      <div class="card">
+        <div class="card-title">Device Connection</div>
+        <p style="color:var(--text-muted);font-size:0.8125rem;margin-bottom:12px">
+          Put device in Fastboot mode (Vol Down + Power), connect via USB:
+        </p>
+        <button class="btn btn-primary" id="btn-connect-fb">Connect Fastboot Device</button>
+        <div style="height:8px"></div>
+        <button class="btn btn-secondary" id="btn-disconnect">Disconnect</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Device Info</div>
+        <div id="device-info"><p style="color:var(--text-muted);font-size:0.8125rem">No device connected</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Flash Operations</div>
+        <div style="display:grid;gap:8px">
+          <button class="btn btn-primary" id="btn-flash" disabled>Flash Patched Boot</button>
+          <button class="btn btn-secondary" id="btn-flash-vbmeta" disabled>Flash Empty vbmeta (Disable AVB)</button>
+          <button class="btn btn-secondary" id="btn-boot-temp" disabled>Boot Temp (Test Without Flashing)</button>
+        </div>
+        <div style="margin-top:12px">
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+          <p class="progress-text" id="progress-text">Ready</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Slot Management (A/B)</div>
+        <div style="display:grid;gap:8px">
+          <button class="btn btn-secondary" id="btn-get-slot" disabled>Get Current Slot</button>
+          <button class="btn btn-secondary" id="btn-switch-slot" disabled>Switch to Inactive Slot</button>
+        </div>
+        <div id="slot-info" style="margin-top:8px;font-size:0.8125rem;color:var(--text-muted)"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Bootloader</div>
+        <div style="display:grid;gap:8px">
+          <button class="btn btn-secondary" id="btn-unlock" disabled style="border-color:var(--warn);color:var(--warn)">Unlock Bootloader (Wipes Data)</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Reboot</div>
+        <div style="display:grid;gap:8px">
+          <button class="btn btn-primary" id="btn-reboot" disabled>Reboot Device</button>
+          <button class="btn btn-secondary" id="btn-reboot-bootloader" disabled>Reboot to Bootloader</button>
+          <button class="btn btn-secondary" id="btn-reboot-recovery" disabled>Reboot to Recovery</button>
+          <button class="btn btn-secondary" id="btn-continue-boot" disabled>Continue Boot</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ODIN PANEL -->
+    <div class="panel" id="panel-odin">
+      <div class="warning">
+        <strong>Samsung Download Mode:</strong> Power off, hold Vol Down + Bixby + Power to enter Download mode.
+      </div>
+
+      <div class="card">
+        <div class="card-title">Samsung Odin Connection</div>
+        <div style="display:grid;gap:8px">
+          <button class="btn btn-primary" id="btn-connect-odin">Connect Odin Device</button>
+          <button class="btn btn-secondary" id="btn-odin-disconnect" disabled>Disconnect</button>
+        </div>
+      </div>
+
+      <div class="card" id="odin-device-card" style="display:none">
+        <div class="card-title">Device Info</div>
+        <div class="device-info" id="odin-device-info"></div>
+      </div>
+
+      <div class="card" id="odin-pit-card" style="display:none">
+        <div class="card-title">Partition Table (PIT)</div>
+        <div id="odin-pit-list"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Odin Operations</div>
+        <div style="display:grid;gap:8px">
+          <button class="btn btn-secondary" id="btn-odin-interrogate" disabled>Read Device Info & PIT</button>
+          <button class="btn btn-secondary" id="btn-odin-erase-userdata" disabled>Factory Reset (Erase Userdata)</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Flash .tar.md5 / .tar.lz4</div>
+        <div class="file-drop" id="odin-file-drop">
+          <p>Tap or drag a <code>.tar.md5</code> or <code>.lz4</code> file</p>
+          <p class="filename"></p>
+        </div>
+        <input type="file" id="odin-file-input" accept=".tar.md5,.tar,.lz4" style="display:none">
+        <div style="height:8px"></div>
+        <button class="btn btn-primary" id="btn-flash-odin" disabled>Flash to Device</button>
+        <div style="height:8px"></div>
+        <button class="btn btn-secondary" id="btn-abort-odin" disabled style="border-color:var(--error);color:var(--error)">Abort Flash</button>
+        <div style="margin-top:12px">
+          <div class="progress-bar"><div class="progress-fill" id="odin-progress-fill"></div></div>
+          <p class="progress-text" id="odin-progress-text">Ready</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Post-Flash Action</div>
+        <div style="display:grid;gap:8px">
+          <button class="btn btn-primary" id="btn-odin-reboot" disabled>Reboot Device</button>
+          <button class="btn btn-secondary" id="btn-odin-continue" disabled>Continue Boot (No Reboot)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI PANEL -->
+    <div class="panel" id="panel-ai">
+      <div class="card" id="ai-key-card">
+        <div class="card-title">Groq API Key</div>
+        <p style="color:var(--text-muted);font-size:0.8125rem;margin-bottom:8px">
+          Enter your Groq API key to enable AI-powered device detection and troubleshooting.
+          Key is stored locally in your browser only.
+        </p>
+        <input type="password" id="groq-key-input" placeholder="gsk_..." style="width:100%;padding:8px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.8125rem;margin-bottom:8px">
+        <button class="btn btn-primary" id="btn-save-groq-key">Save Key</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">AI Device Analysis</div>
+        <div id="ai-analysis"><p style="color:var(--text-muted);font-size:0.8125rem">Connect a device and click Analyze</p></div>
+        <div style="height:8px"></div>
+        <button class="btn btn-primary" id="btn-ai-analyze">Analyze Device & Image</button>
+        <div style="height:8px"></div>
+        <button class="btn btn-secondary" id="btn-ai-diagnose">Diagnose Last Error</button>
+      </div>
+
+      <div class="card" id="ai-diagnosis-card" style="display:none">
+        <div class="card-title">AI Error Diagnosis</div>
+        <div id="ai-diagnosis"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">AI Assistant Chat</div>
+        <div class="log-container" id="ai-chat" style="min-height:120px;margin-bottom:8px">
+          <div class="log-entry debug">Ask about rooting, flashing, or troubleshooting...</div>
+        </div>
+        <div class="ai-input-row">
+          <input type="text" id="ai-input" placeholder="Ask a question...">
+          <button class="btn btn-primary" id="btn-ai-send">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG PANEL -->
+    <div class="panel" id="panel-log">
+      <div class="card">
+        <div class="card-title">Activity Log</div>
+        <div class="log-container" id="log-container">
+          <div class="log-entry info">WebForge Patcher ready</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

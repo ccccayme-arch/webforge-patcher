@@ -1,0 +1,431 @@
+{
+  "devices": {
+    "google": {
+      "name": "Google Pixel",
+      "bootMethod": "fastboot",
+      "vendorId": "0x18D1",
+      "codenames": {
+        "redfin": "Pixel 5",
+        "barbet": "Pixel 5a",
+        "raven": "Pixel 6 Pro",
+        "oriole": "Pixel 6",
+        "bluejay": "Pixel 6a",
+        "panther": "Pixel 7",
+        "cheetah": "Pixel 7 Pro",
+        "lynx": "Pixel 7a",
+        "felix": "Pixel Fold",
+        "tangor": "Pixel Tablet",
+        "shiba": "Pixel 8",
+        "husky": "Pixel 8 Pro",
+        "akita": "Pixel 8a",
+        "tokay": "Pixel 9",
+        "caiman": "Pixel 9 Pro",
+        "komodo": "Pixel 9 Pro XL",
+        "comet": "Pixel 9 Pro Fold",
+        "greenfinch": "Pixel 4a (5G)",
+        "bramble": "Pixel 4a",
+        "redbar": "Pixel 5 (beta)",
+        "sunfish": "Pixel 4a",
+        "coral": "Pixel 4 XL",
+        "flame": "Pixel 4",
+        "bonito": "Pixel 3a XL",
+        "sargo": "Pixel 3a"
+      },
+      "notes": "Pixel 6+ use init_boot for ramdisk. Pixel 8+ support 16KB pages on Android 15."
+    },
+    "samsung": {
+      "name": "Samsung Galaxy",
+      "bootMethod": "odin",
+      "vendorId": "0x04E8",
+      "codenames": {
+        "dm1q": "Galaxy S23",
+        "dm2q": "Galaxy S23 Plus",
+        "dm3q": "Galaxy S23 Ultra",
+        "e1q": "Galaxy S24",
+        "e2q": "Galaxy S24 Plus",
+        "e3q": "Galaxy S24 Ultra",
+        "q5q": "Galaxy S25",
+        "q6q": "Galaxy S25 Plus",
+        "q7q": "Galaxy S25 Ultra",
+        "a54x": "Galaxy A54 5G",
+        "a55x": "Galaxy A55 5G",
+        "m54": "Galaxy M54 5G",
+        "r11q": "Galaxy Z Flip6",
+        "q3q": "Galaxy Z Fold4",
+        "b4q": "Galaxy Z Flip5",
+        "q2q": "Galaxy Z Fold5",
+        "b0q": "Galaxy Z Flip4",
+        "r0q": "Galaxy Z Flip3",
+        "a14x": "Galaxy A14 5G",
+        "a34x": "Galaxy A34 5G",
+        "a15x": "Galaxy A15 5G",
+        "a35x": "Galaxy A35 5G",
+        "q0q": "Galaxy Z Fold3"
+      },
+      "notes": "Samsung uses Odin/Download mode, not Fastboot. Use WebOdin tab."
+    },
+    "oneplus": {
+      "name": "OnePlus",
+      "bootMethod": "fastboot",
+      "vendorId": "0x2A70",
+      "codenames": {
+        "instantnoodle": "8",
+        "instantnoodlep": "8 Pro",
+        "lemonade": "9 Pro",
+        "lemonadep": "9",
+        "ovaltine": "10 Pro",
+        "salami": "10T",
+        "oneplus11": "11",
+        "oneplus12": "12",
+        "oneplus12r": "12R",
+        "oneplus13": "13",
+        "oneplus13r": "13R",
+        "kebab": "8T",
+        "guacamole": "7 Pro",
+        "hotdog": "7T Pro",
+        "mcdonalds": "7T"
+      }
+    },
+    "xiaomi": {
+      "name": "Xiaomi",
+      "bootMethod": "fastboot",
+      "vendorId": "0x18D1",
+      "codenames": {
+        "alioth": "Mi 11X / Poco F3",
+        "haydn": "Mi 11i",
+        "vela": "Mi 11 Lite 5G",
+        "vermeer": "13 Pro",
+        "nuwa": "13 Ultra",
+        "aurora": "14 Pro",
+        "houji": "14",
+        "shennong": "14 Pro Max",
+        "manet": "14 Ultra",
+        "nabu": "Pad 6",
+        "redmi_note_13_pro": "Redmi Note 13 Pro",
+        "redmi_note_13_pro_plus": "Redmi Note 13 Pro+",
+        "nikal": "14 Pro (China)",
+        "fuxi": "13",
+        "babylon": "14 (China)",
+        "suiren": "Xiaomi Pad 6S Pro",
+        "thor": "12S Ultra",
+        "leo": "Mi 10 Pro",
+        "umi": "Mi 10",
+        "cupid": "12"
+      }
+    },
+    "motorola": {
+      "name": "Motorola",
+      "bootMethod": "fastboot",
+      "vendorId": "0x22B8",
+      "codenames": {
+        "rtwo": "Edge 40 Pro",
+        "penang": "Edge 40",
+        "cypfq": "Edge 40 Neo",
+        "eqs": "Edge 30 Ultra",
+        "dubai": "Edge 30 Neo",
+        "rtre": "Edge 50 Pro",
+        "corfu": "Edge 50",
+        "vicky": "Edge 50 Neo",
+        "channel": "Edge 50 Ultra"
+      }
+    },
+    "nothing": {
+      "name": "Nothing",
+      "bootMethod": "fastboot",
+      "vendorId": "0x3358",
+      "codenames": {
+        "spacewar": "Phone (1)",
+        "ataru": "Phone (2)",
+        "inid": "Phone (2a)",
+        "aster": "Phone (2a Plus)",
+        "palmas": "CMF Phone 1"
+      }
+    },
+    "sony": {
+      "name": "Sony Xperia",
+      "bootMethod": "fastboot",
+      "vendorId": "0x0FCE",
+      "codenames": {
+        "pdx234": "Xperia 1 V",
+        "pdx237": "Xperia 10 V",
+        "pdx238": "Xperia 5 V",
+        "pdx242": "Xperia 1 VI",
+        "pdx245": "Xperia 10 VI",
+        "pdx247": "Xperia 5 VI",
+        "pdx243": "Xperia 1 VI (China)"
+      }
+    },
+    "fairphone": {
+      "name": "Fairphone",
+      "bootMethod": "fastboot",
+      "vendorId": "0x2A70",
+      "codenames": {
+        "FP4": "Fairphone 4",
+        "FP5": "Fairphone 5",
+        "FP6": "Fairphone 6",
+        "FP3": "Fairphone 3",
+        "FP2": "Fairphone 2"
+      },
+      "notes": "Fairphone supports unlocking bootloader. Uses generic fastboot."
+    },
+    "asus": {
+      "name": "ASUS ROG/Zenfone",
+      "bootMethod": "fastboot",
+      "vendorId": "0x0B05",
+      "codenames": {
+        "AI2401": "Zenfone 11 Ultra",
+        "AI2302": "Zenfone 10",
+        "rog8": "ROG Phone 8",
+        "rog8pro": "ROG Phone 8 Pro",
+        "rog9": "ROG Phone 9",
+        "rog9pro": "ROG Phone 9 Pro",
+        "AI2501": "Zenfone 12 Ultra"
+      }
+    },
+    "vivo": {
+      "name": "Vivo",
+      "bootMethod": "fastboot",
+      "vendorId": "0x2D1B",
+      "codenames": {
+        "PD2324": "X100 Pro",
+        "PD2321": "X100",
+        "PD2330": "V30 Pro",
+        "PD2333": "V30",
+        "PD2401": "X200 Pro"
+      }
+    },
+    "oppo": {
+      "name": "OPPO",
+      "bootMethod": "fastboot",
+      "vendorId": "0x22D9",
+      "codenames": {
+        "CPH2591": "Find X7 Ultra",
+        "CPH2581": "Find X7",
+        "CPH2583": "Reno 12 Pro",
+        "CPH2585": "Reno 12",
+        "CPH2651": "Find X8 Pro"
+      }
+    },
+    "realme": {
+      "name": "Realme",
+      "bootMethod": "fastboot",
+      "vendorId": "0x22D9",
+      "codenames": {
+        "RMX3900": "GT 6",
+        "RMX3952": "13 Pro+",
+        "RMX3920": "13 Pro",
+        "RMX3977": "13+",
+        "RMX3995": "GT Neo 6"
+      }
+    },
+    "htc": {
+      "name": "HTC",
+      "bootMethod": "fastboot",
+      "vendorId": "0x0BB4",
+      "codenames": {
+        "htc_u23pro": "U23 Pro",
+        "htc_desire_22_pro": "Desire 22 Pro"
+      }
+    },
+    "zte": {
+      "name": "ZTE",
+      "bootMethod": "fastboot",
+      "vendorId": "0x19D2",
+      "codenames": {
+        "nubia_z60ultra": "Nubia Z60 Ultra",
+        "nubia_z70ultra": "Nubia Z70 Ultra",
+        "nx729j": "RedMagic 9 Pro"
+      }
+    },
+    "poco": {
+      "name": "POCO",
+      "bootMethod": "fastboot",
+      "vendorId": "0x18D1",
+      "codenames": {
+        "x6": "POCO X6",
+        "x6pro": "POCO X6 Pro",
+        "f6": "POCO F6",
+        "f6pro": "POCO F6 Pro",
+        "m6pro": "POCO M6 Pro"
+      }
+    }
+  },
+  "partitions": {
+    "boot": {
+      "description": "Boot image (kernel + ramdisk)",
+      "maxSizeMB": 128,
+      "patchable": true,
+      "flashable": true
+    },
+    "init_boot": {
+      "description": "Init boot (Android 13+ ramdisk)",
+      "maxSizeMB": 64,
+      "patchable": true,
+      "flashable": true,
+      "note": "Pixel 6+, Android 13+ moved ramdisk here"
+    },
+    "vendor_boot": {
+      "description": "Vendor boot (vendor ramdisk + dtb)",
+      "maxSizeMB": 128,
+      "patchable": true,
+      "flashable": true
+    },
+    "vendor_kernel": {
+      "description": "Vendor kernel boot (Android 14+)",
+      "maxSizeMB": 64,
+      "patchable": false,
+      "flashable": true
+    },
+    "vbmeta": {
+      "description": "AVB metadata (verification disable)",
+      "maxSizeMB": 8,
+      "patchable": false,
+      "flashable": true
+    },
+    "vbmeta_system": {
+      "description": "System AVB metadata",
+      "maxSizeMB": 8,
+      "patchable": false,
+      "flashable": true
+    },
+    "recovery": {
+      "description": "Recovery image (legacy)",
+      "maxSizeMB": 128,
+      "patchable": true,
+      "flashable": true,
+      "note": "Merged into boot on A/B devices"
+    },
+    "dtbo": {
+      "description": "Device tree overlay",
+      "maxSizeMB": 8,
+      "patchable": false,
+      "flashable": true
+    },
+    "system": {
+      "description": "NOT RECOMMENDED \u2014 too large for browser",
+      "maxSizeMB": 0,
+      "patchable": false,
+      "flashable": false
+    },
+    "vendor": {
+      "description": "NOT RECOMMENDED \u2014 too large for browser",
+      "maxSizeMB": 0,
+      "patchable": false,
+      "flashable": false
+    },
+    "userdata": {
+      "description": "User data (wipe only)",
+      "maxSizeMB": 0,
+      "patchable": false,
+      "flashable": false,
+      "wipeable": true
+    }
+  },
+  "patchOptions": {
+    "magisk": {
+      "name": "Magisk (root)",
+      "description": "Full ramdisk injection with Magisk su daemon",
+      "cmdlinePatches": [
+        "androidboot.verity_mode=disabled"
+      ],
+      "requiresVbmetaDisable": true,
+      "supports16KB": "partial"
+    },
+    "kernelSu": {
+      "name": "KernelSU (root)",
+      "description": "Kernel-level root (requires patched kernel, cmdline only here)",
+      "cmdlinePatches": [],
+      "requiresVbmetaDisable": false,
+      "supports16KB": "yes"
+    },
+    "disableVerity": {
+      "name": "Disable dm-verity only",
+      "description": "Disable verified boot without root injection",
+      "cmdlinePatches": [
+        "androidboot.verity_mode=disabled",
+        "androidboot.enable_dm_verity=0"
+      ],
+      "requiresVbmetaDisable": true,
+      "supports16KB": "yes"
+    }
+  },
+  "androidVersions": {
+    "12": {
+      "pageSize": 4096,
+      "usesInitBoot": false,
+      "usesVendorBoot": true,
+      "bootMethod": "boot"
+    },
+    "13": {
+      "pageSize": 4096,
+      "usesInitBoot": false,
+      "usesVendorBoot": true,
+      "bootMethod": "boot"
+    },
+    "14": {
+      "pageSize": 4096,
+      "usesInitBoot": true,
+      "usesVendorBoot": true,
+      "bootMethod": "init_boot"
+    },
+    "15": {
+      "pageSize": 16384,
+      "usesInitBoot": true,
+      "usesVendorBoot": true,
+      "bootMethod": "init_boot",
+      "note": "16KB page size support \u2014 auto-detect from boot header"
+    }
+  },
+  "bootHeaderVersions": {
+    "v0": {
+      "magic": "ANDROID!",
+      "pageSizeField": true,
+      "headerSize": 1632
+    },
+    "v1": {
+      "magic": "ANDROID!",
+      "pageSizeField": true,
+      "headerSize": 1632,
+      "recoveryDtbo": true
+    },
+    "v2": {
+      "magic": "ANDROID!",
+      "pageSizeField": true,
+      "headerSize": 1660,
+      "dtbOffset": true
+    },
+    "v3": {
+      "magic": "ANDROID!",
+      "pageSizeField": false,
+      "headerSize": 1580,
+      "note": "Page size always 4096"
+    },
+    "v4": {
+      "magic": "ANDROID!",
+      "pageSizeField": false,
+      "headerSize": 1584,
+      "bootImgSize": true
+    },
+    "vendor_v4": {
+      "magic": "VNDRBOOT",
+      "pageSizeField": true,
+      "headerSize": 2112
+    }
+  },
+  "usbVendors": {
+    "0x18D1": "Google",
+    "0x04E8": "Samsung",
+    "0x2A70": "OnePlus/OPPO/Xiaomi",
+    "0x22B8": "Motorola",
+    "0x3358": "Nothing",
+    "0x0FCE": "Sony",
+    "0x0B05": "ASUS",
+    "0x2717": "Xiaomi (alt)",
+    "0x0BB4": "HTC",
+    "0x19D2": "ZTE",
+    "0x1F3A": "Allwinner",
+    "0x2207": "Rockchip",
+    "0x2D1B": "Vivo",
+    "0x22D9": "OPPO/Realme"
+  }
+}

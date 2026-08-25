@@ -1,0 +1,119 @@
+{
+  "name": "WebForge Patcher",
+  "short_name": "WebForge",
+  "description": "Browser-based Android boot image patcher and flasher with WebUSB Fastboot, Samsung Odin, Magisk injection, and AI-powered diagnostics",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": [
+    "developer",
+    "utilities"
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "shortcuts": [
+    {
+      "name": "Patch Image",
+      "short_name": "Patch",
+      "description": "Patch a boot image with Magisk or verity disable",
+      "url": "./?tab=patch",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Flash Device",
+      "short_name": "Flash",
+      "description": "Connect device and flash via Fastboot",
+      "url": "./?tab=flash",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "WebOdin (Samsung)",
+      "short_name": "Odin",
+      "description": "Flash Samsung firmware via Odin protocol",
+      "url": "./?tab=odin",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "AI Assistant",
+      "short_name": "AI",
+      "description": "Diagnose issues and get rooting guidance",
+      "url": "./?tab=ai",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "WebForge Patcher main interface"
+    }
+  ],
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ]
+}
