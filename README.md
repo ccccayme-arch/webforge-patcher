@@ -6,8 +6,8 @@ A browser-based Android boot image patcher and flasher PWA. No server, no deskto
 
 ## Stats
 
-- 27 files · ~7,000 lines · ~518KB total
-- 60 integration tests, all passing
+- 28 files · ~7,800 lines · ~520KB total
+- 68 integration tests, all passing
 - Zero runtime dependencies (native browser APIs only)
 - Works offline (PWA with service worker caching)
 
@@ -77,6 +77,63 @@ A browser-based Android boot image patcher and flasher PWA. No server, no deskto
 - COOP/COEP headers for SharedArrayBuffer support
 - Mobile-first responsive design
 
+### CSS & UX Polish
+The UI uses a single consolidated stylesheet (`css/style.css`, 859 lines) organized
+into clear sections: Variables → Base → Layout → Components → Panels → Utilities.
+
+**Design system:**
+- CSS custom properties for all colors, radii, shadows, and transitions
+- GitHub-dark-inspired dark theme (`--bg: #0d1117`, `--accent: #2f81f7`)
+- 44px minimum touch targets (iOS HIG compliance)
+- Staggered card entrance animations on panel switch
+- Smooth tab indicator with glow effect
+
+**Odin panel CSS:**
+- `.odin-warning` — Amber warning box with left-border accent (3px solid) for Samsung
+  Knox warranty void notice and Download Mode cautions
+- `.pit-table` — Monospace partition table with uppercase headers, hover row
+  highlight, and responsive font shrinking at 480px breakpoint
+- `.btn-abort` — Red outline button variant for emergency Odin flash cancellation
+  (transparent bg, red border, soft red fill on hover/active)
+- Responsive: PIT table font shrinks to 0.6875rem and padding reduces to 4px 6px
+  on mobile (<480px)
+
+**Bootloader card CSS:**
+- `.bootloader-card .card-title` — Flexbox layout with `⚠` warning icon pseudo-element
+  (`::before`) in amber, signaling bootloader unlock risk
+- `.btn-unlock` — Amber outline button variant (transparent bg, amber border) with
+  soft amber fill on hover and stronger fill on active, visually communicating
+  the destructive nature of bootloader unlocking
+- Both `.btn-unlock` and `.btn-abort` use the same outline→fill pattern but with
+  different semantic colors (amber for warning, red for danger)
+
+**Toast notifications:**
+- `Utils.toast(msg, type, duration)` system with 4 variants: success (✓ green),
+  warn (⚠ amber), error (✕ red), info (ℹ blue)
+- Slide-in/out animations, auto-dismiss, fixed bottom positioning with
+  safe-area-inset support for notched devices
+- Wired at 25+ user touchpoints: connect, disconnect, patch, flash, boot,
+  unlock, reboot, download, error fallback
+
+**Connection status indicators:**
+- `.status-dot` — 8px circular indicator with three states: `.connected`
+  (green, pulsing glow animation), `.disconnected` (gray), `.error` (red)
+- Wired for both Fastboot and Odin panels via `Utils.setStatus(elementId, state)`
+
+**Utility classes:**
+- `.hidden` — Display none with `!important`, used by all JS toggle logic
+- `.btn-grid`, `.btn-row` — Layout helpers for button groups
+- `.text-muted`, `.text-mono` — Text style shortcuts
+- `.info-hint`, `.placeholder-text` — Muted informational text
+- `.slot-info` — Monospace info box for A/B slot display
+- `.spinner`, `.skeleton` — Loading state utilities
+
+**Responsive breakpoints:**
+- `max-width: 480px` — Mobile: reduced padding, font sizes, column AI input
+- `min-width: 768px` — Desktop: wider container, larger fonts
+- `max-width: 768px` + landscape — Compact header and padding
+- `display-mode: standalone` — PWA safe-area-inset adjustments
+
 ## Architecture
 
 ```
@@ -85,7 +142,7 @@ webforge-patcher/
 ├── manifest.json           # PWA manifest
 ├── service-worker.js       # Offline caching
 ├── css/
-│   └── style.css           # Mobile-first responsive styles
+│   └── style.css           # Mobile-first responsive styles (859 lines)
 ├── js/
 │   ├── app.js             # Main controller (920 lines)
 │   ├── boot-image.js      # Boot image parser/rebuilder v0-v4 (360 lines)
@@ -101,7 +158,7 @@ webforge-patcher/
 ├── data/
 │   └── codes.json         # Device database (100+ codenames, 13 brands)
 ├── tests/
-│   └── run-tests.mjs      # 60 integration tests
+│   └── run-tests.mjs      # 68 integration tests
 ├── dev-server.mjs         # Local dev server with COOP/COEP
 └── .github/workflows/
     └── deploy.yml          # GitHub Pages CI/CD
