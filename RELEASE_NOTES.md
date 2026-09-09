@@ -1,5 +1,23 @@
 # Release Notes
 
+## v1.0.3 — September 9, 2026
+
+### Fixes
+- **Fixed broken live demo URL** — README and device guide pointed to
+  `ccccayme.github.io` (404) instead of the correct `ccccayme-arch.github.io`
+
+### Device Database
+- Added **rhodep** (Moto G Play 2023, XT2271-5, MediaTek Helio G37) — now auto-detected over WebUSB
+- Added **tonga** (Moto G Power 2022) — now auto-detected over WebUSB
+- Motorola codename coverage: 11 devices
+
+### Documentation
+- Added `docs/flashing-rhodep-moto-g-play-2023.md` — complete step-by-step
+  unlocking, patching, and rooting guide for the Moto G Play (2023), including
+  carrier-variant warnings and MediaTek-specific gotchas
+
+---
+
 ## v1.0.2 — August 25, 2026
 
 ### Documentation

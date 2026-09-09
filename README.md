@@ -2,7 +2,7 @@
 
 A browser-based Android boot image patcher and flasher PWA. No server, no desktop app — just open the page in Chrome, connect your device via USB, and patch/flash directly.
 
-**Live demo:** https://ccccayme.github.io/webforge-patcher/
+**Live demo:** https://ccccayme-arch.github.io/webforge-patcher/
 **Release notes:** [RELEASE_NOTES.md](RELEASE_NOTES.md)
 
 ## Stats

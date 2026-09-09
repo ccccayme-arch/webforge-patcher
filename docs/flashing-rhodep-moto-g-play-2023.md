@@ -52,7 +52,7 @@ Check: Settings → Developer Options → OEM Unlocking. If greyed out, you like
 
 ## Phase 4: Patch with WebForge (on desktop Chrome)
 
-15. Open https://ccccayme.github.io/webforge-patcher/ in Chrome
+15. Open https://ccccayme-arch.github.io/webforge-patcher/ in Chrome
 16. Go to the **Patch** tab
 17. Load your `boot.img`
 18. Load a Magisk APK (download from https://github.com/topjohnwu/Magisk/releases)
