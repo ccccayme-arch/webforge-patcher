@@ -857,3 +857,80 @@ input[type="file"]:hover { border-color: var(--accent) !important; }
   header h1 { font-size: 1.25rem; }
   header p { font-size: 0.75rem; }
 }
+
+/* ============ Doctor Panel ============ */
+
+.doc-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border, #30363d);
+}
+
+.doc-row:last-child { border-bottom: none; }
+
+.doc-label {
+  color: var(--muted, #8b949e);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.doc-value {
+  font-family: var(--mono, monospace);
+  font-size: 0.85rem;
+  text-align: right;
+  word-break: break-word;
+}
+
+.doc-warn { color: var(--danger, #f85149); }
+
+.doc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg, #0d1117);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.doc-test-header {
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 12px;
+  z-index: 1;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+
+.doc-pass { color: #3fb950; font-weight: 600; }
+
+.doc-touch-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 3px;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 9 / 16;
+  max-height: 70vh;
+}
+
+.doc-touch-cell {
+  background: #30363d;
+  border-radius: 4px;
+  transition: background 0.1s;
+}
+
+.doc-touch-cell.touched {
+  background: #2ea043;
+}
+
+@media (max-width: 360px) {
+  .doc-touch-grid { gap: 2px; }
+}

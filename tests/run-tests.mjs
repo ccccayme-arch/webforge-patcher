@@ -17,6 +17,7 @@ import { OdinBridge, ODIN_CMD } from '../js/odin.js';
 import { USBBridge, RESP_OKAY, RESP_FAIL, RESP_INFO, RESP_DATA } from '../js/usb-bridge.js';
 import { BRAND_KNOWLEDGE, ERROR_PATTERNS } from '../js/ai-assistant.js';
 import { Utils } from '../js/utils.js';
+import { DeviceDoctor } from '../js/doctor.js';
 void RamdiskPatcher; void OdinBridge; void USBBridge; // verify import works
 
 let passed = 0;
@@ -190,6 +191,24 @@ test('VBMeta: empty vbmeta header structure', () => {
 });
 
 // --- Run Tests ---
+
+// --- DeviceDoctor smoke tests (no DOM required) ---
+test('DeviceDoctor: constructs with 5 pixel test colors', () => {
+  const doc = new DeviceDoctor();
+  assertEq(doc.pixelColors.length, 5, 'Should have 5 pixel colors');
+  assert(doc.pixelColors.includes('#ff0000'), 'Red color present');
+  assert(doc.pixelColors.includes('#000000'), 'Black color present');
+});
+
+test('DeviceDoctor: refresh rate measurement returns positive value', async () => {
+  const doc = new DeviceDoctor();
+  const origRaf = globalThis.requestAnimationFrame;
+  globalThis.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 16);
+  const hz = await doc.measureRefreshRate();
+  globalThis.requestAnimationFrame = origRaf;
+  assert(hz > 0, `Refresh rate should be positive, got ${hz}`);
+});
+
 async function runAll() {
   console.log('\n  WebForge Patcher — Integration Tests\n');
   console.log('  ' + '='.repeat(50) + '\n');

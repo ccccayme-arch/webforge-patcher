@@ -6,6 +6,7 @@ import { OdinBridge } from './odin.js';
 import { RamdiskPatcher } from './ramdisk-patcher.js';
 import { AIAssistant } from './ai-assistant.js';
 import { BootValidator } from './boot-validator.js';
+import { DeviceDoctor } from './doctor.js';
 
 class WebForgeApp {
   constructor() {
@@ -24,6 +25,7 @@ class WebForgeApp {
     this.odinTarFile = null;
     this.odinBridge = null;
     this.aiAnalysis = null;
+    this.doctor = new DeviceDoctor();
     this._init();
   }
 
@@ -53,6 +55,7 @@ class WebForgeApp {
 
   _bindUI() {
     document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => this._switchTab(tab.dataset.tab)));
+    this.doctor.bind();
 
     // Boot image file
     const fileInput = document.getElementById('file-input');

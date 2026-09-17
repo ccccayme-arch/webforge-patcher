@@ -100,6 +100,18 @@
           "sizes": "192x192"
         }
       ]
+    },
+    {
+      "name": "Phone Doctor",
+      "short_name": "Doctor",
+      "description": "Run device diagnostics: battery, network, touch, display, sensors",
+      "url": "./?tab=doctor",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ],
   "screenshots": [

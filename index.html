@@ -41,6 +41,7 @@
       <button class="tab" data-tab="flash">Flash</button>
       <button class="tab" data-tab="odin">WebOdin</button>
       <button class="tab" data-tab="ai">AI</button>
+      <button class="tab" data-tab="doctor">Doctor</button>
       <button class="tab" data-tab="log">Log</button>
     </div>
 
@@ -246,6 +247,28 @@
       </div>
     </div>
 
+    <!-- DOCTOR PANEL -->
+    <div class="panel" id="panel-doctor">
+      <div class="card">
+        <div class="card-title">Phone Doctor</div>
+        <p class="text-muted">Client-side device diagnostics. No data leaves your phone.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-doc-scan">Run Full Scan</button>
+          <button class="btn" id="btn-doc-touch">Touch Test</button>
+          <button class="btn" id="btn-doc-pixel">Dead Pixel Test</button>
+          <button class="btn" id="btn-doc-speaker">Speaker Test</button>
+          <button class="btn" id="btn-doc-sensor">Sensor Test</button>
+        </div>
+        <p class="info-hint" id="doc-summary">Tap a button to begin</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Results</div>
+        <div id="doc-results">
+          <p class="placeholder-text">No scan yet — run the full scan for a health report.</p>
+        </div>
+      </div>
+    </div>
+
     <!-- LOG PANEL -->
     <div class="panel" id="panel-log">
       <div class="card">
@@ -257,6 +280,7 @@
     </div>
   </div>
 
+  <div class="doc-overlay hidden" id="doc-overlay"></div>
   <div class="toast-container" id="toast-container"></div>
   <script type="module" src="./js/app.js"></script>
 </body>

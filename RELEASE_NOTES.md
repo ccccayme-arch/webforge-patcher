@@ -1,5 +1,23 @@
 # Release Notes
 
+## v1.0.4 — September 17, 2026
+
+### New: Phone Doctor
+New **Doctor** tab — client-side device diagnostics, zero dependencies, no data leaves the phone:
+
+- **Full scan** — battery level/charging, network type + downlink/RTT, site storage
+  usage, device RAM, CPU cores, GPU renderer, screen resolution/DPR, measured refresh
+  rate, PWA install state, WebUSB availability
+- **Touch test** — 12×12 grid, every square must respond; auto-passes when all 144 are touched
+- **Dead pixel test** — fullscreen red/green/blue/white/black cycling
+- **Speaker test** — distinct left/right/center WebAudio tones for stereo verification
+- **Sensor test** — live deviceorientation readout (compass, tilt), with iOS permission handling
+
+### Tests
+- 2 new DeviceDoctor smoke tests (70 total, all passing)
+
+---
+
 ## v1.0.3 — September 9, 2026
 
 ### Fixes

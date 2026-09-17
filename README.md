@@ -139,7 +139,7 @@ into clear sections: Variables → Base → Layout → Components → Panels →
 
 ```
 webforge-patcher/
-├── index.html              # PWA shell with 4 tabs (Patch, Flash, WebOdin, Log)
+├── index.html              # PWA shell with 6 tabs (Patch, Flash, WebOdin, AI, Doctor, Log)
 ├── manifest.json           # PWA manifest
 ├── service-worker.js       # Offline caching
 ├── css/
@@ -151,6 +151,7 @@ webforge-patcher/
 │   ├── usb-bridge.js      # WebUSB Fastboot protocol (740 lines)
 │   ├── odin.js            # Samsung Odin protocol (920 lines)
 │   ├── ai-assistant.js    # Groq AI + offline knowledge base (730 lines)
+│   ├── doctor.js           # Device diagnostics: scan, touch, pixel, speaker, sensor tests
 │   ├── boot-validator.js  # Pre-flash validation (220 lines)
 │   ├── vbmeta.js          # Empty vbmeta generator
 │   ├── lz4.js             # LZ4 frame decompression
